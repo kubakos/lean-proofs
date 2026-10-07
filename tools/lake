@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Run lake with this repo's own elan, toolchain and Mathlib cache (tools/bootstrap.sh
+# installs all three). Use this instead of a bare `lake`: a bare one resolves to
+# whatever elan is on PATH, whose toolchains and cache are not this repo's.
+#
+#     tools/lake build
+#     tools/lake env lean Research/Foo.lean
+set -euo pipefail
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export ELAN_HOME="$REPO/.elan"
+export MATHLIB_CACHE_DIR="$REPO/.cache/mathlib"
+[[ -x "$ELAN_HOME/bin/lake" ]] || { echo "tools/lake: no lake at $ELAN_HOME — run tools/bootstrap.sh" >&2; exit 1; }
+# elan picks the toolchain from the nearest lean-toolchain above the working directory,
+# so a call from outside the repo is moved into it.
+case "$PWD/" in "$REPO"/*) ;; *) cd "$REPO" ;; esac
+exec "$ELAN_HOME/bin/lake" "$@"

@@ -1,0 +1,6 @@
+# Rebuilt locally; see README "Checking". No trailing slash: a symlinked .elan or .lake
+# must be ignored too.
+/.elan
+/.lake
+/.cache
+__pycache__/

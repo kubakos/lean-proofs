@@ -1,0 +1,222 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+# formalization.yaml v0.4, for the Palomar registry (https://palomar-registry.org).
+version: "v0.4"
+
+project:
+  name: "Erdős Problem #1063: a subexponential upper bound for n_k, a lower bound, and the structure of admissible n"
+  description: >-
+    Lean 4 / Mathlib proofs about n_k, the least n ≥ 2k such that exactly one of
+    n, n−1, …, n−k+1 fails to divide the binomial coefficient C(n, k) (Erdős–Selfridge,
+    erdosproblems.com/1063). Upper bounds: n_k ≤ exp(C·k·log log k / log k) for all large k
+    (explicitly C = 100 for every k ≥ 2^64), hence n_k = exp(o(k)); and the answer 2^⌊k/4⌋ to
+    the open formal-conjectures statement erdos_1063.better_upper, which asks for an upper
+    bound that is o(k·lcm(1, …, k−1)) (Cambie's bound). Structure: for every n ≥ 2k with exactly
+    one failing index e, e = n mod k, n − e is divisible by
+    D(k, e) = ∏_{p^a ∥ k} p^(a + v_p(C(k−1, e)) + ⌊log_p max(e, k−1−e)⌋), and for each prime
+    k/2 < p ≤ k a lone multiple of p in the window is n − e. Lower bound:
+    n_k ≥ ∏_{p^a ∥ k} p^(a + ⌊log_p(k−1)⌋). These formalise statements that were claimed
+    informally, without review, in 2026: the upper bound by R. Cipollini (with GPT-5.6 Sol) and
+    by P. White & Claude (construction by GPT-5.6 Sol), and the structural facts and lower bound
+    in the erdosproblems.com forum by rickyc (R. Cipollini) and jbell31. The proof of the upper bound follows Cipollini's construction
+    with cruder, elementary estimates (the primorial bound ∏_{p ≤ k} p ≤ 4^k instead of the
+    prime number theorem), so it does not reach his sharp constant. The question "estimate n_k"
+    remains open: the bounds are far apart.
+  authors:
+    - "Ákos Kubák"
+  license: "Apache-2.0"
+  responsible_maintainers:
+    - "Ákos Kubák"
+
+classification:
+  arxiv: [math.NT]
+  msc2020: [11B65, 11A05, 11N25]
+
+sources:
+  - title: "Erdős Problem #1063 (problem statement and forum thread)"
+    contributors:
+      - name: "Paul Erdős"
+        role: "problem-proposer"
+      - name: "John L. Selfridge"
+        role: "problem-proposer"
+      - name: "Thomas F. Bloom"
+        role: "maintainer of erdosproblems.com"
+    id: "https://www.erdosproblems.com/1063"
+    type: "web discussion"
+    relationship: background
+    note: "The problem: estimate n_k. The page records Monier's n_k ≤ k! and Cambie's n_k ≤ k·lcm(2, …, k−1)."
+    author_endorsement: "not-contacted"
+  - title: "An upper bound for Erdős–Selfridge Problem 1063"
+    authors:
+      - "Ricky Cipollini"
+    id: "https://www.overleaf.com/read/hrpsqsnqktky"
+    type: "other"
+    relationship: adapts
+    note: >-
+      Unreviewed note (2026-07-27; the paper states it was written by GPT-5.6 Sol), posted as a
+      proof claim on erdosproblems.com. It claims log n_k ≤ (k/log k)(log log k + log log log k +
+      log 2 + o(1)) using the prime number theorem, Mertens and Brun–Titchmarsh. This
+      formalisation uses its local lemmas (carry criterion, stabilization, one carry, Lucas) and
+      its construction, with a simpler modulus and elementary estimates, and proves the weaker
+      bound exp(O(k log log k / log k)), which the paper reports as Cipollini's first result.
+    author_endorsement: "not-contacted"
+  - title: "Erdős Problem #1063: a substantially stronger upper bound on n_k"
+    authors:
+      - "Patrick White"
+    contributors:
+      - name: "Claude (Anthropic)"
+        role: "co-author of the claim, as stated by the repository"
+      - name: "GPT-5.6 Sol (OpenAI, via Codex)"
+        role: "produced the construction, as stated by the repository"
+    id: "https://github.com/pw/erdos1063-upper-bound/tree/a28481f5b4bda374086533397269c5b550c759b8"
+    type: "other"
+    relationship: independently-proves
+    note: >-
+      Unreviewed claim (2026-07-25, repository README): there is an absolute constant C such that
+      n_k ≤ exp(C·k·log log k / log k) for all sufficiently large k. Its construction is
+      different (excused index ⌈k/(log k)^3⌉, p^2-anchors for exceptional primes, one Dirichlet
+      box); it is not the argument formalised here. subexp_bound proves its statement.
+    author_endorsement: "not-contacted"
+  - title: "erdosproblems.com/1063 forum: lower bound and its proof (comments of 2026-06-26 and 2026-07-10)"
+    contributors:
+      - name: "rickyc (Ricky Cipollini)"
+        role: "forum author; the 2026-06-26 comment states AI assistance (GPT-5.5 Thinking), and the 2026-07-10 comment states it was written by GPT-5.6 Sol"
+    id: "https://www.erdosproblems.com/forum/thread/1063"
+    type: "web discussion"
+    relationship: formalizes
+    note: >-
+      The comments argue n_k ≥ max(2k, ∏_{p^a ∥ k} p^(a + ⌊log_p(k−1)⌋)) for n = n_k, via the
+      identity v_p(n − e) = a + v_p(C(n, k)) + v_p(C(k−1, e)). lower_bound formalises the bound;
+      the Lean versions of the structural facts hold for every admissible n.
+    author_endorsement: "not-contacted"
+  - title: "erdosproblems.com/1063 forum: extension of OEIS A389360 to k = 75 (comment of 2026-07-28)"
+    contributors:
+      - name: "jbell31"
+        role: "forum author; the comment states AI assistance (Claude)"
+    id: "https://www.erdosproblems.com/forum/thread/1063"
+    location: "https://github.com/Jaybell31/dreamwalk/blob/be54a5c39f69fd178ef153b9477bfead782d614d/erdos1063/erdos1063_sweep.c"
+    type: "web discussion"
+    relationship: formalizes
+    note: >-
+      The coverage argument of that exhaustive search uses e = n mod k and D(k, e) ∣ n − e,
+      which jbell31 credits to rickyc's argument and states for every solution, and a skip rule
+      for primes k/2 < p ≤ k (the 'wheel'), which appears in the search code (pinned above).
+      eq_mod_and_dvd and wheel formalise these facts for every admissible n. The search's
+      computation itself is not checked here.
+    author_endorsement: "not-contacted"
+  - title: "Problem 6447"
+    authors:
+      - "Paul Erdős"
+      - "John L. Selfridge"
+    location: "Amer. Math. Monthly (1983), 710"
+    type: "paper"
+    relationship: background
+  - title: "Unsolved Problems in Number Theory, 3rd ed., Problem B31"
+    authors:
+      - "Richard K. Guy"
+    location: "Springer, 2004"
+    type: "book"
+    relationship: background
+    note: "Records n_2 = 4, n_3 = 6, n_4 = 9, which the statement checks reproduce in Lean."
+
+related_formalizations:
+  - id: "https://github.com/google-deepmind/formal-conjectures/blob/dbb5a21169ce4094913e6cad34faedd74df55157/FormalConjectures/ErdosProblems/1063.lean"
+    relationship: builds-on
+    note: >-
+      The definition of n and the statement erdos_1063.better_upper are copied verbatim from this
+      file (Challenge.lean; Research/Erdos1063/Statement.lean is generated from it and pinned by
+      tools/fc_statement.py). better_upper answers FC's `answer(sorry)` with 2^⌊k/4⌋. The proof is
+      checked against the copy under this repository's Mathlib, not inside FC's environment.
+
+status:
+  scope: >-
+    Proved, with no sorry: the seven Challenge theorems (better_upper, subexp_bound,
+    n_le_exp_of_ge, exp_littleO, eq_mod_and_dvd, wheel, lower_bound). Not formalised: Cipollini's
+    sharp constant (it needs the prime number theorem with an error term), Cipollini's claimed
+    lower bound log n_k ≥ c (log k)^2, and any bound of the true order of n_k, which is open.
+    The constant C = 100 is crude: n_le_exp_of_ge improves on Cambie's bound only for
+    k > 10^281. lower_bound improves on n_k ≥ 2k only for composite k ≠ 4.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+
+automation:
+  methods:
+    - method: agent
+      models: ["Claude Opus 5.5 (Anthropic)"]
+      framework: "Claude Code"
+      tool_setup: >-
+        An AI agent wrote the Lean statements, proofs, statement checks and tooling, and ran
+        the literature searches, working autonomously in sessions directed by the maintainer.
+        The maintainer chose the problem and decided what to publish. Separate agent instances
+        did the cold reviews listed under review.
+      cost:
+        wall_time: "two days of agent sessions (2026-10-06 to 2026-10-07)"
+        spend_usd: "not tracked"
+        hardware: "local workstation"
+      prompting_notes: >-
+        Standing instructions: nothing counts as proved until an axiom allowlist check passes,
+        the formal statement is checked against the source text before work on it, the
+        literature is searched before an attack, and every claim is reviewed by a cold skeptic
+        before it is called a result.
+  spend_usd: "not tracked"
+  notes: >-
+    The mathematics formalised here was proposed by others, as recorded under sources; the
+    agent adapted Cipollini's construction with elementary estimates. The maintainer did not
+    write the proofs.
+
+fidelity:
+  divergences: >-
+    better_upper answers the FC statement with the explicit 2^⌊k/4⌋, rather than the sharper
+    bounds of the sources. subexp_bound is White & Claude's statement, proved by a different
+    construction (Cipollini's). The structural facts are stated for every admissible n; the
+    forum argues them for n = n_k. Statements use ℕ throughout; n_k is FC's sInf definition,
+    whose defining set is non-empty for every k ≥ 2 (proved in Research/Erdos1063/Existence.lean).
+
+review:
+  status: "agent-reviewed"
+  reviewers:
+    - "Claude Opus 5.5 cold-review agents (separate instances with no session context; four reviews, the last of the whole package)"
+  notes: >-
+    For each result: an axiom allowlist check (propext, Classical.choice, Quot.sound only);
+    statement checks proved in Lean (n_2, n_3, n_4; the false variant n_k = o(k) refuted;
+    Cambie's bound is not an answer; the variant of subexp_bound without the factor k refuted;
+    subexp_bound implies n_k = exp(o(k)); the strengthened lower bound refuted at k = 4;
+    72 ≤ n_6 ≤ 75); a literature and code search for earlier Lean proofs (none found, as of
+    2026-10-07); and a cold review that tried to break statement and claim. All requested
+    changes were applied. No human mathematician has reviewed the proofs; the Lean kernel checks
+    them.
+
+alignment:
+  namespace: "Erdos1063.Results"
+  statements:
+    - source: "formal-conjectures erdos_1063.better_upper"
+      lean: "Erdos1063.Results.better_upper"
+      module: "Challenge"
+      status: "proved"
+      note: "With the answer 2^⌊k/4⌋."
+    - source: "White & Claude, Theorem; Cipollini's first bound"
+      lean: "Erdos1063.Results.subexp_bound"
+      module: "Challenge"
+      status: "proved"
+      note: "Explicit form with C = 100 for k ≥ 2^64 is Erdos1063.Results.n_le_exp_of_ge."
+    - source: "White & Claude, 'In particular, n_k = exp(o(k))'"
+      lean: "Erdos1063.Results.exp_littleO"
+      module: "Challenge"
+      status: "proved"
+    - source: "jbell31's coverage argument (e = n mod k, D(k, e) ∣ n − e), from rickyc's identity"
+      lean: "Erdos1063.Results.eq_mod_and_dvd"
+      module: "Challenge"
+      status: "proved"
+      note: "For every admissible n, not only n_k."
+    - source: "jbell31's wheel (skip rule for primes k/2 < p ≤ k)"
+      lean: "Erdos1063.Results.wheel"
+      module: "Challenge"
+      status: "proved"
+    - source: "rickyc's lower bound (forum, 2026-07-10)"
+      lean: "Erdos1063.Results.lower_bound"
+      module: "Challenge"
+      status: "proved"
+
+acknowledgements: >-
+  Mathlib; google-deepmind/formal-conjectures for the statement; Ricky Cipollini (rickyc on the
+  forum), Patrick White, jbell31 and Stijn Cambie for the mathematics, as recorded above.

@@ -1,0 +1,8 @@
+# Every published theorem. check.sh runs `tools/check_axioms.sh <Module> <declaration>...`
+# on each line; a theorem passes only if it rests on propext, Classical.choice and
+# Quot.sound alone.
+Research.Erdos1063.Main Erdos1063.Main.better_upper_explicit Erdos1063.Main.n_le_two_pow Erdos1063.Main.isLittleO_cambie Erdos1063.Main.not_statement_cambie Erdos1063.Main.cambie_five Erdos1063.Main.better_upper
+Research.Erdos1063.StatementGate Erdos1063.Gate.statement_iff Erdos1063.Gate.n_two Erdos1063.Gate.n_three Erdos1063.Gate.n_four
+Research.Erdos1063.Existence Erdos1063.Existence.two_mul_le_n Erdos1063.Existence.not_isLittleO_self Erdos1063.Existence.n_le_bigM
+Research.Erdos1063.Subexp Erdos1063.Subexp.subexp_bound Erdos1063.Subexp.n_le_exp_of_ge Erdos1063.Subexp.n_le_exp Erdos1063.Subexp.exp_littleO Erdos1063.Subexp.exp_littleO_of_subexp Erdos1063.Subexp.not_subexp_without_k
+Research.Erdos1063.Structure Erdos1063.Structure.lower_bound Erdos1063.Structure.n_eq_mod Erdos1063.Structure.eq_mod Erdos1063.Structure.D_dvd Erdos1063.Structure.pow_dvd_sub Erdos1063.Structure.unique_max Erdos1063.Structure.wheel Erdos1063.Structure.lower_bound_six Erdos1063.Structure.not_lower_bound_succ

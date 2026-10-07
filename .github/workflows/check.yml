@@ -1,0 +1,39 @@
+name: check
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+
+      - name: Install elan into .elan, where tools/lake expects it
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/v4.2.4/elan-init.sh \
+            -o "$RUNNER_TEMP/elan-init.sh"
+          ELAN_HOME="$PWD/.elan" sh "$RUNNER_TEMP/elan-init.sh" -y --default-toolchain none --no-modify-path
+
+      - name: Fetch the Mathlib build cache
+        run: tools/lake exe cache get
+
+      - name: Install bubblewrap for lake comparator's sandbox
+        # Ubuntu 24.04 restricts unprivileged user namespaces through AppArmor, which bwrap
+        # needs; the runner is disposable.
+        run: |
+          sudo apt-get update -qq >/dev/null
+          sudo apt-get install -y -qq bubblewrap >/dev/null
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
+      - name: Check every published result
+        run: ./check.sh

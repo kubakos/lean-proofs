@@ -1,0 +1,15 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "Erdos1063.Results.better_upper",
+    "Erdos1063.Results.subexp_bound",
+    "Erdos1063.Results.n_le_exp_of_ge",
+    "Erdos1063.Results.exp_littleO",
+    "Erdos1063.Results.eq_mod_and_dvd",
+    "Erdos1063.Results.wheel",
+    "Erdos1063.Results.lower_bound"
+  ],
+  "definition_names": [],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"]
+}
